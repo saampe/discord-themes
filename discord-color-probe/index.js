@@ -1,42 +1,44 @@
 ({
   start() {
-    const report = { probe: "discord-color-probe", version: 1 };
-    const inspect = (value) => {
-      if (!value || (typeof value !== "object" && typeof value !== "function")) {
-        return { type: typeof value, keys: [] };
-      }
-      let keys = [];
-      try { keys = Object.keys(value).slice(0, 120); } catch (_) {}
-      return { type: typeof value, keys };
+    const report = { probe: "discord-color-probe", version: 2 };
+    const shape = (value) => {
+      if (value === null) return { type: "null" };
+      const type = typeof value;
+      if (type !== "object" && type !== "function") return { type };
+      let keys = [], prototypeKeys = [];
+      try { keys = Object.keys(value).slice(0, 45); } catch (_) {}
+      try { prototypeKeys = Object.getOwnPropertyNames(Object.getPrototypeOf(value)).slice(0, 45); } catch (_) {}
+      return { type, keys, prototypeKeys };
     };
     try {
       const metro = globalThis.unbound?.metro;
-      report.metro = !!metro;
       const theme = metro?.common?.Theme;
-      report.theme = inspect(theme);
-      report.colors = inspect(theme?.colors);
-      report.internal = inspect(theme?.internal);
-      const stores = metro?.stores;
-      report.themeStore = inspect(stores?.Theme);
-      const colorNames = report.colors.keys;
-      report.colorSample = {};
-      for (const key of colorNames.slice(0, 30)) {
-        try {
-          const value = theme.colors[key];
-          report.colorSample[key] = typeof value === "function"
-            ? "function"
-            : typeof value === "string"
-              ? (value.match(/^#[0-9A-Fa-f]{3,8}$/) ? value : "string")
-              : typeof value;
-        } catch (_) { report.colorSample[key] = "getter-error"; }
+      report.theme = shape(theme);
+      report.colors = shape(theme?.colors);
+      report.internal = shape(theme?.internal);
+      report.rawColors = shape(theme?.unsafe_rawColors);
+      report.sample = {};
+      const names = ["BACKGROUND_BASE_LOWEST", "BACKGROUND_BASE_LOWER", "BACKGROUND_BASE_LOW",
+        "BACKGROUND_SURFACE_HIGH", "TEXT_DEFAULT", "TEXT_STRONG", "BACKGROUND_ACCENT", "CONTROL_PRIMARY_BACKGROUND_DEFAULT"];
+      for (const name of names) {
+        const v = theme?.colors?.[name];
+        const info = shape(v);
+        if (v && typeof v === "object") {
+          info.fields = {};
+          for (const key of info.keys.slice(0, 12)) {
+            try {
+              const item = v[key];
+              if (typeof item === "string") info.fields[key] = /^#[0-9A-Fa-f]{3,8}$/.test(item) ? item : "string";
+              else if (typeof item === "number" || typeof item === "boolean") info.fields[key] = item;
+              else info.fields[key] = typeof item;
+            } catch (_) { info.fields[key] = "error"; }
+          }
+        }
+        report.sample[name] = info;
       }
       const clipboard = metro?.common?.Clipboard;
-      if (clipboard && typeof clipboard.setString === "function") {
-        clipboard.setString(JSON.stringify(report, null, 2));
-        console.log("[Discord Color Probe] Report copied to clipboard.");
-      } else {
-        console.log("[Discord Color Probe] Clipboard unavailable.", JSON.stringify(report));
-      }
+      if (typeof clipboard?.setString === "function") clipboard.setString(JSON.stringify(report, null, 2));
+      console.log("[Discord Color Probe v2] Report copied:", !!clipboard?.setString);
     } catch (error) {
       console.error("[Discord Color Probe]", String(error));
     }
