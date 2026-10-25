@@ -1,14 +1,14 @@
 {
   "id": "theme-diagnostic",
   "name": "Theme Diagnostic",
-  "description": "Temporary high-contrast test of Unbound native theme hooks. Not intended for daily use.",
+  "description": "High contrast test for Discord theme hooks and UIKit system colors.",
   "authors": [
     {
       "name": "Midnight Glass",
       "id": "0"
     }
   ],
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "bundle.json",
   "type": "theme"
 }
