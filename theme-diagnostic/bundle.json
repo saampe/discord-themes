@@ -20,6 +20,918 @@
     "BACKGROUND_MOBILE_SECONDARY": {
       "type": "color",
       "value": "#FF00FF"
+    },
+    "backgroundAbort": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundAccent": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundBaseLow": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundBaseLower": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundBaseLowest": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundBehaviorAA0a10BackgroundE0Ov": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundCode": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundColor": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundColorDidChange": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundContainerView": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundDurationSinceLastCrash": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundDurationSinceLaunch": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundFeedbackCritical": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundFeedbackNotification": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundHighlight": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundImage": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundImageURL": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundImageURL10Foundation0K0VSgvpWvd": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundImageView": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundInstance": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundLayer": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundModMuted": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundModNormal": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundModStrong": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundModSubtle": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundMode": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundScrim": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundScrimLightbox": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundSecondaryAlt": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundSpeakerFix": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundStyleAttributeKey": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundStyles": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundSurfaceHigh": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundSurfaceHighest": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundTaskId": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundTaskIdentifierInvalid": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundView": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundViewOutsets": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "backgroundVoiceMuted": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "background_blur": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "background_replacement": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "background_time_since_last_crash": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "background_time_since_launch": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "headerBackgroundImageView": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerBadgeText": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerBadgeTextSSvpWvd": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerBytes": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerBytesReceived": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerBytesSent": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerColor": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerContainer": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerContentView": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerExtensions": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerExtensionsToNegotiate": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerFont": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerFontSize": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerHeight": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerHeightChange": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerIcon": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerIconColor": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerIconURL": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerIconURLSSvpWvd": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerIconView": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerImageURL": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerImageUrl": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerImageView": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerLabel": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerLeftBarButtonItems": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerLogoImageView": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerLogoURL": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerLogoUrl": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerRightBarButtonItems": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerRowView": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerText": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerTextColor": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerTextSSSgvpWvd": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerTextSSvpWvd": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerView": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerViewModels": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "header_fill": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "header_size": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "headerbytes": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "interactiveAccentBackgroundActive": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "interactiveAccentBackgroundDefault": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "interactiveAccentBackgroundSelected": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "interactiveBackgroundDefault": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "interactiveBackgroundHover": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "interactiveBackgroundSelected": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "interactiveContentPopGestureRecognizer": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "interactiveIconActive": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "interactiveIconDefault": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "interactiveIconHover": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "interactiveKeyboardObserver": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "interactiveMuted": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "interactivePopGestureRecognizer": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "interactiveTextActive": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "interactiveTextDefault": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "interactiveTextHover": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "surfaceHandler": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "surfacePresenter": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "textAfter": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textAlign": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textAlignVertical": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textAlignment": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textAlignmentOverride": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textAnchor": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textAnimator": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textAnimatorProperties": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textAttachmentViewReusePoolManager": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textAttributes": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textBefore": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textBoundingRect": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textBoundingSize": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textBrand": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textBreakStrategy": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textBrush": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textButton": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textCode": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textColor": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textColumnView": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textContainer": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textContainerInset": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textContainerPath": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textContainers": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textContentType": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textDecoration": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textDecorationColor": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textDecorationLine": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textDecorationStyle": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textDefault": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textDidChange": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textDocument": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textEffectiveHeightCenter": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textEncodedORAddress": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textEncoderConstructor": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textEncoderPrototypeEncode": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textEncoderPrototypeEncodeInto": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textEncoderPrototypeEncoding": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textEncodingName": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textEvent": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textFeedback": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textFeedbackCritical": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textFeedbackInfo": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textFeedbackPositive": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textFeedbackWarning": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textFieldDelegate": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textFieldDidChange": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textFieldDidEndEditingOnExit": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textFieldProbablyDidChangeSelection": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textFields": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textFilters": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textFiltersAndroid": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textFiltersIOS": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textFlushed": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textFramePosition": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textFrameSize": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textGroup": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textHandleMove": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textIcon24": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textIcon24SSv": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textIndex": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textInline": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textInputDelegate": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textInputDidBeginEditing": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textInputDidChange": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textInputDidChangeSelection": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textInputDidEndEditing": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textInputDidReturn": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textInputMode": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textInputNativeID": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textInputShouldBeginEditing": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textInputShouldEndEditing": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textInputShouldReturn": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textInputShouldSubmitOnReturn": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textInputView": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textInterCharacter": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textInteractionEnabled": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textLabel": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textLayer": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textLayerModel": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textLayers": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textLayout": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textLength": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textLink": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textLongPressAction": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textMuted": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textNotice": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textOutputNode": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textParser": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textPath": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textPreviewHint": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textPreviewLabel": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textProvider": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textProviderAA0b11KeypathTextE0_pv": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textRangeUnit": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textRangeUnits": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textRoot": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textSSSgvpWvd": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textSSvpWvd": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textSelector": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textShadowColor": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textShadowOffset": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textShadowRadius": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textSize": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textStorage": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textStrokeColor": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textStrokeWidth": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textStrong": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textSubtle": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textTapAction": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textTracks": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textTransform": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textValueRunError": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textVerticalAlignment": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textView": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textViewDelegate": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textViewProbablyDidChangeSelection": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textVoiceConnected": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textVoiceDisconnected": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textVoiceSpeaking": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textWasPasted": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textarea": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "texture": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "texture3D": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textureArrays": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textureType": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textureView": {
+      "type": "color",
+      "value": "#00FF00"
+    },
+    "textures": {
+      "type": "color",
+      "value": "#00FF00"
     }
   },
   "raw": {
