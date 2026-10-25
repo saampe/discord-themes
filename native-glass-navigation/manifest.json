@@ -1,0 +1,14 @@
+{
+  "id": "native-glass-navigation",
+  "name": "Native Glass Navigation",
+  "description": "Non-invasive runtime verification of the native Discord navigation host and Apple Liquid Glass bridge. Does not change Titanium Blue.",
+  "authors": [
+    {
+      "name": "Samuel",
+      "id": "0"
+    }
+  ],
+  "version": "0.1.0",
+  "main": "index.js",
+  "type": "plugin"
+}
