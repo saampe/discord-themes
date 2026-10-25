@@ -1,0 +1,14 @@
+{
+  "id": "midnight-glass-js-safe",
+  "name": "Midnight Glass Coverage Safe",
+  "description": "Wide surface coverage while preserving Discord's native toggle, checkbox and button states.",
+  "authors": [
+    {
+      "name": "Midnight Glass",
+      "id": "0"
+    }
+  ],
+  "version": "1.3.0",
+  "main": "index.js",
+  "type": "plugin"
+}
