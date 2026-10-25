@@ -23,6 +23,17 @@
     }
   },
   "raw": {
-    "systemBlueColor": "#00FF00"
+    "systemBlueColor": "#00FF00",
+    "systemBackgroundColor": "#FF00FF",
+    "secondarySystemBackgroundColor": "#FF00FF",
+    "tertiarySystemBackgroundColor": "#FF00FF",
+    "labelColor": "#00FF00",
+    "secondaryLabelColor": "#00FF00",
+    "systemGrayColor": "#FF00FF",
+    "systemGray2Color": "#FF00FF",
+    "systemGray3Color": "#FF00FF",
+    "systemGray4Color": "#FF00FF",
+    "systemGray5Color": "#FF00FF",
+    "systemGray6Color": "#FF00FF"
   }
 }
