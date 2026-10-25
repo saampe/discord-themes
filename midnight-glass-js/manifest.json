@@ -1,14 +1,14 @@
 {
   "id": "midnight-glass-js",
   "name": "Midnight Glass JS",
-  "description": "Graphite and OLED-black Discord palette applied through reversible JavaScript semantic color patches.",
+  "description": "Expanded semantic color coverage for Discord surfaces, panels, menus and cards.",
   "authors": [
     {
       "name": "Midnight Glass",
       "id": "0"
     }
   ],
-  "version": "1.1.0",
+  "version": "1.2.0",
   "main": "index.js",
   "type": "plugin"
 }
