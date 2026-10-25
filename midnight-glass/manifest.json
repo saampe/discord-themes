@@ -1,0 +1,14 @@
+{
+  "id": "midnight-glass",
+  "name": "Midnight Glass",
+  "description": "Minimal OLED-black and graphite theme for Discord on iOS.",
+  "authors": [
+    {
+      "name": "Midnight Glass",
+      "id": "0"
+    }
+  ],
+  "version": "1.0.0",
+  "main": "bundle.json",
+  "type": "theme"
+}
