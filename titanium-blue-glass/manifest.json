@@ -1,0 +1,14 @@
+{
+  "id": "titanium-blue-glass",
+  "name": "Titanium Blue Glass",
+  "description": "Titanium and muted steel-blue Discord palette. Surface coverage with native controls preserved; designed for future Liquid Glass.",
+  "authors": [
+    {
+      "name": "Midnight Glass",
+      "id": "0"
+    }
+  ],
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "plugin"
+}
