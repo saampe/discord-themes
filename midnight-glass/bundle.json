@@ -1,43 +1,179 @@
 {
   "type": "midnight",
   "semantic": {
-    "BACKGROUND_PRIMARY": {
+    "backgroundAccent": {
       "type": "color",
-      "value": "#050506"
+      "value": "#5865F2"
     },
-    "BACKGROUND_SECONDARY": {
+    "backgroundBaseLow": {
       "type": "color",
       "value": "#111216"
     },
-    "BACKGROUND_TERTIARY": {
+    "backgroundBaseLower": {
+      "type": "color",
+      "value": "#090A0C"
+    },
+    "backgroundBaseLowest": {
+      "type": "color",
+      "value": "#050506"
+    },
+    "backgroundCode": {
       "type": "color",
       "value": "#17181C"
     },
-    "BACKGROUND_MOBILE_PRIMARY": {
+    "backgroundFeedbackCritical": {
       "type": "color",
-      "value": "#050506"
+      "value": "#35191D"
     },
-    "BACKGROUND_MOBILE_SECONDARY": {
+    "backgroundFeedbackNotification": {
       "type": "color",
-      "value": "#111216"
+      "value": "#16263D"
     },
-    "TEXT_NORMAL": {
+    "backgroundModMuted": {
+      "type": "color",
+      "value": "#FFFFFF0A"
+    },
+    "backgroundModNormal": {
+      "type": "color",
+      "value": "#FFFFFF12"
+    },
+    "backgroundModStrong": {
+      "type": "color",
+      "value": "#FFFFFF24"
+    },
+    "backgroundModSubtle": {
+      "type": "color",
+      "value": "#FFFFFF06"
+    },
+    "backgroundScrim": {
+      "type": "color",
+      "value": "#000000B8"
+    },
+    "backgroundScrimLightbox": {
+      "type": "color",
+      "value": "#000000D9"
+    },
+    "backgroundSecondaryAlt": {
+      "type": "color",
+      "value": "#15161A"
+    },
+    "backgroundSurfaceHigh": {
+      "type": "color",
+      "value": "#1C1D22"
+    },
+    "backgroundSurfaceHighest": {
+      "type": "color",
+      "value": "#26272D"
+    },
+    "backgroundVoiceMuted": {
+      "type": "color",
+      "value": "#15161A"
+    },
+    "interactiveAccentBackgroundActive": {
+      "type": "color",
+      "value": "#6773FF"
+    },
+    "interactiveAccentBackgroundDefault": {
+      "type": "color",
+      "value": "#5865F2"
+    },
+    "interactiveAccentBackgroundSelected": {
+      "type": "color",
+      "value": "#4552D8"
+    },
+    "interactiveBackgroundDefault": {
+      "type": "color",
+      "value": "#1B1C21"
+    },
+    "interactiveBackgroundHover": {
+      "type": "color",
+      "value": "#282930"
+    },
+    "interactiveBackgroundSelected": {
+      "type": "color",
+      "value": "#31323A"
+    },
+    "interactiveIconActive": {
+      "type": "color",
+      "value": "#FFFFFF"
+    },
+    "interactiveIconDefault": {
+      "type": "color",
+      "value": "#C1C2C9"
+    },
+    "interactiveIconHover": {
+      "type": "color",
+      "value": "#F1F2F4"
+    },
+    "interactiveMuted": {
+      "type": "color",
+      "value": "#81838D"
+    },
+    "interactiveTextActive": {
+      "type": "color",
+      "value": "#FFFFFF"
+    },
+    "interactiveTextDefault": {
+      "type": "color",
+      "value": "#D7D8DE"
+    },
+    "interactiveTextHover": {
+      "type": "color",
+      "value": "#FFFFFF"
+    },
+    "textBrand": {
+      "type": "color",
+      "value": "#929BFF"
+    },
+    "textCode": {
+      "type": "color",
+      "value": "#E5E6EC"
+    },
+    "textDefault": {
       "type": "color",
       "value": "#EDEEF1"
     },
-    "TEXT_MUTED": {
+    "textFeedbackCritical": {
       "type": "color",
-      "value": "#92949C"
+      "value": "#FF8893"
     },
-    "INTERACTIVE_NORMAL": {
+    "textFeedbackInfo": {
       "type": "color",
-      "value": "#B6B8C0"
+      "value": "#91BFFF"
     },
-    "INTERACTIVE_HOVER": {
+    "textFeedbackPositive": {
       "type": "color",
-      "value": "#EDEEF1"
+      "value": "#78D6A4"
     },
-    "INTERACTIVE_ACTIVE": {
+    "textFeedbackWarning": {
+      "type": "color",
+      "value": "#F6C67B"
+    },
+    "textLink": {
+      "type": "color",
+      "value": "#92A7FF"
+    },
+    "textMuted": {
+      "type": "color",
+      "value": "#9597A1"
+    },
+    "textStrong": {
+      "type": "color",
+      "value": "#FFFFFF"
+    },
+    "textSubtle": {
+      "type": "color",
+      "value": "#767984"
+    },
+    "textVoiceConnected": {
+      "type": "color",
+      "value": "#A4EBC0"
+    },
+    "textVoiceDisconnected": {
+      "type": "color",
+      "value": "#9B9CA5"
+    },
+    "textVoiceSpeaking": {
       "type": "color",
       "value": "#FFFFFF"
     }
