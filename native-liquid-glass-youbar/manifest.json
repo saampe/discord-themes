@@ -1,0 +1,14 @@
+{
+  "id": "native-liquid-glass-youbar",
+  "name": "Native Liquid Glass – YouBar",
+  "description": "Uses real UIKit Liquid Glass behind Discord 350's floating YouBar background, with a scoped React Native marker and graceful fallback.",
+  "authors": [
+    {
+      "name": "Samuel",
+      "id": "0"
+    }
+  ],
+  "version": "0.1.0",
+  "main": "index.js",
+  "type": "plugin"
+}
