@@ -1,0 +1,14 @@
+{
+  "id": "discord-color-probe-v2",
+  "name": "Discord Color Probe V2",
+  "description": "Read-only inspect Discord's JS theme exports and copy a redacted report to clipboard.",
+  "authors": [
+    {
+      "name": "Midnight Glass",
+      "id": "0"
+    }
+  ],
+  "version": "1.1.0",
+  "main": "index.js",
+  "type": "plugin"
+}
