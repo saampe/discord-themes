@@ -50,12 +50,13 @@
     const objc = globalThis.NativePlugin?.objc;
     const metro = unbound?.metro;
     const React = metro?.common?.React;
+    const NativeView = metro?.common?.ReactNative?.View;
     const resolver = metro?.common?.Theme?.internal;
     const makePatcher = unbound?.patcher?.createPatcher;
     if (typeof objc?.glassAttachById !== "function" ||
         typeof metro?.findByFilePath !== "function" ||
         typeof React?.isValidElement !== "function" ||
-        typeof React?.cloneElement !== "function" ||
+        typeof React?.cloneElement !== "function" || !NativeView ||
         typeof resolver?.resolveSemanticColor !== "function" ||
         typeof makePatcher !== "function") {
       console.warn("[Native Liquid Glass] Required bridge / Metro API unavailable");
@@ -90,12 +91,21 @@
         // the background prop and supply a native accessibility marker.
         const clone = React.cloneElement(result, {
           ...result.props,
-          backgroundColor: "transparent",
-          testID: MARKER,
-          collapsable: false
+          backgroundColor: "transparent"
         });
+        // The internal YouBarMaskedBackground / YouBarAnimatedBackground
+        // functions do NOT forward testID (verified in Hermes bytecode).
+        // A dedicated, non-interactive native View supplies our exact marker.
+        // Absolute fill preserves the original background-only slot without
+        // moving the neighboring icon and touch-target components.
+        const host = React.createElement(NativeView, {
+          testID: MARKER,
+          collapsable: false,
+          pointerEvents: "none",
+          style: { position: "absolute", top: 0, bottom: 0, left: 0, right: 0 }
+        }, clone);
         tryAttach(generation);
-        return clone;
+        return host;
       });
       patched = true;
       console.log("[Native Liquid Glass] Scoped YouBarBackground hooks installed");
