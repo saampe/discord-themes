@@ -46,15 +46,20 @@
     CONTROL_SECONDARY_BACKGROUND_DEFAULT: "#292A30",
     CONTROL_SECONDARY_BACKGROUND_ACTIVE: "#35363D"
   };
+  // Coverage first: keep separate tones so every container is visible during testing.
+  // Override only neutral surface tokens; retain semantic alerts, brands, images and text.
   function inferredBackground(name) {
-    if (/^(BACKGROUND_BASE_LOWEST|BACKGROUND_BASE_LOWER)$/.test(name)) return "#050506";
-    if (/^(BACKGROUND_|BG_|CHANNEL_BACKGROUND|CHANNELS_|CHAT_|CARD_|CONTEXT_MENU_BACKDROP_|POPOUT_|MODAL_|PANEL_|SURFACE_|SIDEBAR_|APP_FRAME_)/.test(name)) {
-      if (/(BRAND|ACCENT|CRITICAL|DANGER|WARNING|POSITIVE|INFO|NOTIFICATION|FEEDBACK|PINK|GRADIENT|VOICE|SCRIM|MOD_|ICON|TEXT|TINT|BORDER|FOCUS|SEND_BUTTON|ACTIVE|PRESSED|HOVER|SELECTED|OVERLAY|TRANSPARENT)/.test(name)) return null;
-      if (/(HIGHEST|RAISED|ELEVATED|CARD_|TILE|POPOUT|MODAL)/.test(name)) return "#222329";
-      if (/(HIGH|SECONDARY|INPUT|TEXTAREA|SURFACE)/.test(name)) return "#18191E";
-      return "#0B0C0F";
+    if (/(GRADIENT|BRAND|ACCENT|CRITICAL|DANGER|WARNING|POSITIVE|SUCCESS|INFO|NOTIFICATION|FEEDBACK|PINK|VOICE|SCRIM|ICON|TEXT|TINT|FOREGROUND|FOCUS|TRANSPARENT|BLUR)/.test(name)) return null;
+    if (/(BORDER|OUTLINE|DIVIDER|SEPARATOR|STROKE)/.test(name)) return "#36383F";
+    if (/(PRESSED|HOVER|ACTIVE|SELECTED)/.test(name) && /BACKGROUND|_BG$|SURFACE/.test(name)) return "#303139";
+    if (/(^|_)(PROFILE|USER_PANEL|ACCOUNT|MEMBER|POPOUT|MODAL|MENU|SHEET|DRAWER|FLOATING|TOOLTIP)(_|$)/.test(name) && /(BACKGROUND|_BG$|SURFACE|CONTAINER|CARD)/.test(name)) return "#292A32";
+    if (/(^|_)(CARD|TILE|PANEL|WIDGET|BOX|CONTAINER|INPUT|TEXTAREA|BUTTON|CONTROL)(_|$)/.test(name) && /(BACKGROUND|_BG$|SURFACE|CONTAINER|CARD)/.test(name)) return "#202127";
+    if (/(^|_)(SURFACE|BACKGROUND|BG|CHANNELS|SIDEBAR|CHAT|APP_FRAME)(_|$)/.test(name) || /BACKGROUND|_BG$/.test(name)) {
+      if (/(MUTED|MOD_|OVERLAY)/.test(name)) return null;
+      if (/(HIGHEST|RAISED|ELEVATED|FLOATING)/.test(name)) return "#292A32";
+      if (/(HIGH|SECONDARY|TERTIARY|INPUT)/.test(name)) return "#1A1B20";
+      return "#101115";
     }
-    if (/^(CONTROL_|INTERACTIVE_)/.test(name) && /_BACKGROUND_(DEFAULT|HOVER|SELECTED)$/.test(name) && !/(BRAND|CRITICAL|DANGER|ACCENT|CONNECTED|EXPRESSIVE)/.test(name)) return "#222329";
     return null;
   }
   let patch = null;
