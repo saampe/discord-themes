@@ -1,0 +1,14 @@
+{
+  "id": "titanium-blue-glass-refined",
+  "name": "Titanium Blue Refined",
+  "description": "Refined titanium and steel-blue palette with softer selections, quieter borders, clearer muted text and native controls preserved.",
+  "authors": [
+    {
+      "name": "Midnight Glass",
+      "id": "0"
+    }
+  ],
+  "version": "1.1.0",
+  "main": "index.js",
+  "type": "plugin"
+}
