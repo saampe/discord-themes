@@ -1,0 +1,14 @@
+{
+  "id": "midnight-glass-js-coverage",
+  "name": "Midnight Glass Coverage",
+  "description": "Expanded semantic color coverage for Discord surfaces, panels, menus and cards.",
+  "authors": [
+    {
+      "name": "Midnight Glass",
+      "id": "0"
+    }
+  ],
+  "version": "1.2.0",
+  "main": "index.js",
+  "type": "plugin"
+}
