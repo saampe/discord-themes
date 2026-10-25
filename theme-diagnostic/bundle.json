@@ -1,0 +1,28 @@
+{
+  "type": "midnight",
+  "semantic": {
+    "BACKGROUND_PRIMARY": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "BACKGROUND_SECONDARY": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "BACKGROUND_TERTIARY": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "BACKGROUND_MOBILE_PRIMARY": {
+      "type": "color",
+      "value": "#FF00FF"
+    },
+    "BACKGROUND_MOBILE_SECONDARY": {
+      "type": "color",
+      "value": "#FF00FF"
+    }
+  },
+  "raw": {
+    "systemBlueColor": "#00FF00"
+  }
+}
