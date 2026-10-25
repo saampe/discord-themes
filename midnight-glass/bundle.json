@@ -1,0 +1,46 @@
+{
+  "type": "midnight",
+  "semantic": {
+    "BACKGROUND_PRIMARY": {
+      "type": "color",
+      "value": "#050506"
+    },
+    "BACKGROUND_SECONDARY": {
+      "type": "color",
+      "value": "#111216"
+    },
+    "BACKGROUND_TERTIARY": {
+      "type": "color",
+      "value": "#17181C"
+    },
+    "BACKGROUND_MOBILE_PRIMARY": {
+      "type": "color",
+      "value": "#050506"
+    },
+    "BACKGROUND_MOBILE_SECONDARY": {
+      "type": "color",
+      "value": "#111216"
+    },
+    "TEXT_NORMAL": {
+      "type": "color",
+      "value": "#EDEEF1"
+    },
+    "TEXT_MUTED": {
+      "type": "color",
+      "value": "#92949C"
+    },
+    "INTERACTIVE_NORMAL": {
+      "type": "color",
+      "value": "#B6B8C0"
+    },
+    "INTERACTIVE_HOVER": {
+      "type": "color",
+      "value": "#EDEEF1"
+    },
+    "INTERACTIVE_ACTIVE": {
+      "type": "color",
+      "value": "#FFFFFF"
+    }
+  },
+  "raw": {}
+}
