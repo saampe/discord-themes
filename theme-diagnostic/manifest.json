@@ -1,14 +1,14 @@
 {
   "id": "theme-diagnostic",
   "name": "Theme Diagnostic",
-  "description": "High contrast test for Discord theme hooks and UIKit system colors.",
+  "description": "Probe Discord 350 Objective-C semantic color selectors",
   "authors": [
     {
       "name": "Midnight Glass",
       "id": "0"
     }
   ],
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "bundle.json",
   "type": "theme"
 }
