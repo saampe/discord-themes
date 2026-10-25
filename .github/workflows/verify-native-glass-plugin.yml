@@ -1,0 +1,27 @@
+name: Verify Native Liquid Glass Plugin
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'native-liquid-glass-youbar/**'
+      - 'tests/native-liquid-glass-youbar.test.cjs'
+      - '.github/workflows/verify-native-glass-plugin.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate syntax without Discord IPA
+        run: |
+          node --version
+          node --check native-liquid-glass-youbar/index.js
+          node --check native-glass-navigation/index.js
+          node --check tests/native-liquid-glass-youbar.test.cjs
+      - name: Exercise scoped React Native component and rollback
+        run: node tests/native-liquid-glass-youbar.test.cjs
