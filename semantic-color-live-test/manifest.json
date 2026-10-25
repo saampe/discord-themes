@@ -1,0 +1,14 @@
+{
+  "id": "semantic-color-live-test",
+  "name": "Semantic Color Live Test",
+  "description": "Temporary reversible magenta override of a Discord JavaScript background token. Disable to restore normal colors.",
+  "authors": [
+    {
+      "name": "Midnight Glass",
+      "id": "0"
+    }
+  ],
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "plugin"
+}
