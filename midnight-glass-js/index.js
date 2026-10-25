@@ -46,6 +46,17 @@
     CONTROL_SECONDARY_BACKGROUND_DEFAULT: "#292A30",
     CONTROL_SECONDARY_BACKGROUND_ACTIVE: "#35363D"
   };
+  function inferredBackground(name) {
+    if (/^(BACKGROUND_BASE_LOWEST|BACKGROUND_BASE_LOWER)$/.test(name)) return "#050506";
+    if (/^(BACKGROUND_|BG_|CHANNEL_BACKGROUND|CHANNELS_|CHAT_|CARD_|CONTEXT_MENU_BACKDROP_|POPOUT_|MODAL_|PANEL_|SURFACE_|SIDEBAR_|APP_FRAME_)/.test(name)) {
+      if (/(BRAND|ACCENT|CRITICAL|DANGER|WARNING|POSITIVE|INFO|NOTIFICATION|FEEDBACK|PINK|GRADIENT|VOICE|SCRIM|MOD_|ICON|TEXT|TINT|BORDER|FOCUS|SEND_BUTTON|ACTIVE|PRESSED|HOVER|SELECTED|OVERLAY|TRANSPARENT)/.test(name)) return null;
+      if (/(HIGHEST|RAISED|ELEVATED|CARD_|TILE|POPOUT|MODAL)/.test(name)) return "#222329";
+      if (/(HIGH|SECONDARY|INPUT|TEXTAREA|SURFACE)/.test(name)) return "#18191E";
+      return "#0B0C0F";
+    }
+    if (/^(CONTROL_|INTERACTIVE_)/.test(name) && /_BACKGROUND_(DEFAULT|HOVER|SELECTED)$/.test(name) && !/(BRAND|CRITICAL|DANGER|ACCENT|CONNECTED|EXPRESSIVE)/.test(name)) return "#222329";
+    return null;
+  }
   let patch = null;
   return {
     start() {
@@ -58,9 +69,10 @@
         return;
       }
       const replacements = new Map();
-      for (const [name, value] of Object.entries(palette)) {
-        const token = theme?.colors?.[name];
-        if (token && typeof token === "object") replacements.set(token, value);
+      for (const [name, token] of Object.entries(theme?.colors ?? {})) {
+        if (!token || typeof token !== "object") continue;
+        const value = Object.prototype.hasOwnProperty.call(palette, name) ? palette[name] : inferredBackground(name);
+        if (value) replacements.set(token, value);
       }
       if (!replacements.size) {
         console.error("[Midnight Glass JS] No semantic tokens found");
