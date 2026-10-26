@@ -89,6 +89,82 @@ async function run(){
   assert.equal(missingBridge.__unboundGlassRuntimeStatus.patchInstalled,true);
   recovering.stop();
   assert.equal(component.type,originalType);
-  console.log("PASS: exact marker, opaque fallback, confirmed glass, scoped theme, missing-bridge recovery, rollback");
+  // Regression: UIKit may finish attaching AFTER React unmounts the YouBar.
+  // The resulting material must be removed instead of being left behind.
+  state = false;
+  cleanup = null;
+  effectActive = false;
+  let resolveLateAttach, lateDetaches = 0;
+  const lateContext = {
+    ...context,
+    NativePlugin: {objc:{
+      glassAttachById: () => new Promise(resolve => { resolveLateAttach = resolve; }),
+      glassDetachById: async id => { assert.equal(id,marker);lateDetaches++; }
+    }}
+  };
+  lateContext.globalThis = lateContext;
+  const latePlugin = vm.runInNewContext(source, lateContext);
+  latePlugin.start();
+  const lateLayer = component.type();
+  lateLayer.type(lateLayer.props);
+  const lateTimer = timers.find(x => !x.done && !x.cancelled);
+  assert.ok(lateTimer);
+  lateTimer.done = true;
+  const pendingAttach = lateTimer.fn();
+  assert.equal(typeof resolveLateAttach, "function");
+  cleanup();
+  resolveLateAttach(true);
+  await pendingAttach;
+  await Promise.resolve();
+  assert.equal(lateDetaches, 1, "Late native attachment must be detached after unmount");
+  assert.equal(lateContext.__unboundGlassRuntimeStatus.attached,false);
+  latePlugin.stop();
+  assert.equal(component.type,originalType);
+
+  // Regression: an older YouBar instance must not detach the replacement's
+  // native host when its asynchronous attach resolves out of order.
+  state = false;
+  cleanup = null;
+  effectActive = false;
+  const resolves = [];
+  let replacementDetaches = 0;
+  const replacementContext = {
+    ...context,
+    NativePlugin: {objc:{
+      glassAttachById: () => new Promise(resolve => resolves.push(resolve)),
+      glassDetachById: async id => { assert.equal(id,marker);replacementDetaches++; }
+    }}
+  };
+  replacementContext.globalThis = replacementContext;
+  const replacementPlugin = vm.runInNewContext(source, replacementContext);
+  replacementPlugin.start();
+  const firstLayer = component.type();
+  firstLayer.type(firstLayer.props);
+  const firstCleanup = cleanup;
+  const firstTimer = timers.find(x => !x.done && !x.cancelled);
+  assert.ok(firstTimer);
+  firstTimer.done = true;
+  const firstPending = firstTimer.fn();
+  effectActive = false; // A second React component instance mounts.
+  const replacementLayer = component.type();
+  replacementLayer.type(replacementLayer.props);
+  const replacementCleanup = cleanup;
+  const secondTimer = timers.find(x => !x.done && !x.cancelled);
+  assert.ok(secondTimer);
+  secondTimer.done = true;
+  const secondPending = secondTimer.fn();
+  assert.equal(resolves.length,2);
+  firstCleanup();
+  resolves[0](true);
+  await firstPending;
+  assert.equal(replacementDetaches,0,"Old mount cannot detach current host");
+  resolves[1](true);
+  await secondPending;
+  replacementCleanup();
+  await Promise.resolve();
+  assert.equal(replacementDetaches,1,"Current mount must detach its host");
+  replacementPlugin.stop();
+  assert.equal(component.type,originalType);
+  console.log("PASS: exact marker, opaque fallback, confirmed glass, scoped theme, missing-bridge recovery, late attach, replacement ownership, rollback");
 }
 run().catch(error=>{console.error(error);process.exitCode=1;});
