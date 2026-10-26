@@ -1,7 +1,3 @@
-// Companion plugin for the already-installed Discord 350 Unbound IPA.
-// The bundled native Liquid Glass plugin owns UIKit attachment; this plugin
-// removes only the *original YouBar background* after native attach succeeds.
-// It never invokes NativePlugin or competes for the native glass marker.
 (() => {
   const MODULE_PATH = "modules/main_tabs_v2/native/you_bar/YouBarBackground.tsx";
   const RETRY_MS = 500;
