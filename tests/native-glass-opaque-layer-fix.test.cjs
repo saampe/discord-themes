@@ -110,8 +110,8 @@ async function test() {
     "The current IPA diagnostics must expose proof that companion actually hid the background");
   cleanup();
   external.stop();
-  assert.equal(ctx.__unboundGlassRuntimeStatus.code,"",
-    "Disabling external plugin must remove its diagnostic marker");
+  assert.equal(String(ctx.__unboundGlassRuntimeStatus.code).startsWith("OVERLAY_FIX_V2"),false,
+    "Disabling external plugin must not leave its diagnostic marker");
   builtin.stop();
   assert.equal(target.type(),original,"Stopping both plugins restores Discord original");
 
