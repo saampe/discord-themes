@@ -88,7 +88,7 @@ async function test() {
   assert.equal(ctx.__unboundGlassRuntimeStatus.patchInstalled,true);
   // Real exported global is absent after Unbound JS loads in the phone.
   ctx.NativePlugin=undefined;
-  assert.equal(loadViaUnbound("// leading comment\\n"+companion,ctx,React),undefined,
+  assert.equal(loadViaUnbound("// leading comment\n"+companion,ctx,React),undefined,
     "A leading JS comment must be caught as Unbound startup regression");
   const external = loadViaUnbound(companion,ctx,React);
   assert.equal(typeof external?.start,"function","Unbound loader must receive start()");
