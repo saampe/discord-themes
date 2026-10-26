@@ -17,19 +17,52 @@
     clearedBackgrounds: 0, keptBackgrounds: 0
   };
 
-  // The installed IPA's native diagnostics serializer has no companion field.
-  // Its existing pluginStatus.code is safe to use for a short, read-only
-  // progress marker, without changing the native bridge or rebuilding the IPA.
-  function report() {
-    const builtIn = globalThis.__unboundGlassRuntimeStatus;
-    if (builtIn?.phase === "attached" &&
-        (!builtIn.code || String(builtIn.code).startsWith("OVERLAY_FIX_V2"))) {
-      builtIn.code = "OVERLAY_FIX_V2:r" + status.renderMatches +
-        ":u" + status.unmatchedResults +
-        ":h" + status.clearedBackgrounds +
-        ":k" + status.keptBackgrounds;
+  // The IPA exports a snapshot of __unboundGlassRuntimeStatus.code, not
+  // companion plugin globals. Keep a reversible live diagnostic accessor on
+  // that object. The bundled plugin repeatedly sets code="" while attaching;
+  // an accessor survives those writes without suppressing genuine failures.
+  let restoreCode = null;
+  let mirroredStatus = null;
+  function telemetry() {
+    return "OVERLAY_FIX_V3:p" + Number(status.patchInstalled) +
+      ":r" + status.renderMatches +
+      ":u" + status.unmatchedResults +
+      ":h" + status.clearedBackgrounds +
+      ":k" + status.keptBackgrounds;
+  }
+  function mirrorStatus() {
+    const host = globalThis.__unboundGlassRuntimeStatus;
+    if (!active || !host || typeof host !== "object") return;
+    if (host === mirroredStatus) return;
+    if (restoreCode) { restoreCode(); restoreCode = null; }
+    const oldDescriptor = Object.getOwnPropertyDescriptor(host, "code");
+    if (oldDescriptor && (!oldDescriptor.configurable ||
+        !Object.prototype.hasOwnProperty.call(oldDescriptor, "value")))
+      return; // Do not replace another plugin's accessor.
+    let baseCode = String(host.code ?? "");
+    const getter = () => {
+      if (active && host.phase === "attached" && !baseCode)
+        return telemetry();
+      return baseCode;
+    };
+    try {
+      Object.defineProperty(host, "code", {
+        configurable: true, enumerable: true, get: getter,
+        set: value => { baseCode = String(value ?? ""); }
+      });
+      mirroredStatus = host;
+      restoreCode = () => {
+        if (Object.getOwnPropertyDescriptor(host, "code")?.get === getter)
+          Object.defineProperty(host, "code", {
+            configurable: true, enumerable: true, writable: true, value: baseCode
+          });
+        mirroredStatus = null;
+      };
+    } catch {
+      mirroredStatus = null;
     }
   }
+  function report() { mirrorStatus(); }
 
   function GlassAwareOriginal({source, backgroundColor}) {
     // Bundled NativeGlassYouBarLayer applies backgroundColor="transparent"
@@ -52,6 +85,7 @@
     const React = metro?.common?.React;
     const createPatcher = globalThis.unbound?.patcher?.createPatcher;
     const builtIn = globalThis.__unboundGlassRuntimeStatus;
+    mirrorStatus(); // Even before hook installation, expose waiting state.
     if (!builtIn?.patchInstalled || typeof metro?.findByFilePath !== "function" ||
         typeof React?.createElement !== "function" ||
         typeof React?.cloneElement !== "function" ||
@@ -125,9 +159,7 @@
       patched = false;
       status.patchInstalled = false;
       status.phase = "stopped";
-      const nativeStatus = globalThis.__unboundGlassRuntimeStatus;
-      if (String(nativeStatus?.code ?? "").startsWith("OVERLAY_FIX_V2"))
-        nativeStatus.code = "";
+      if (restoreCode) { restoreCode(); restoreCode = null; }
     }
   };
 })()
