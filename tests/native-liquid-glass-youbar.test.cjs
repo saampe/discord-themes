@@ -48,7 +48,7 @@ const context = {
   },
   NativePlugin:{objc:{
     glassAttachById:async(id,clear,override)=>{
-      assert.equal(id,marker);assert.equal(clear,true);assert.equal(override,true);return true;
+      assert.equal(id,marker);assert.equal(clear,false);assert.equal(override,true);return true;
     },
     glassDetachById:async id=>assert.equal(id,marker)
   }}
