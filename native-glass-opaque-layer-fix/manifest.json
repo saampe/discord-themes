@@ -1,14 +1,14 @@
 {
   "id": "native-glass-opaque-layer-fix",
   "name": "Native Glass – YouBar Background Fix",
-  "description": "Companion YouBar Liquid Glass fix: handles either patch order and reports verification in native diagnostics.",
+  "description": "YouBar native-glass companion with fixed Unbound plugin startup, patch-order resilience, and visible native diagnostics.",
   "authors": [
     {
       "name": "Samuel",
       "id": "0"
     }
   ],
-  "version": "0.4.0",
+  "version": "0.5.0",
   "main": "index.js",
   "type": "plugin"
 }
