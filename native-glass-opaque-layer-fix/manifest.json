@@ -1,14 +1,14 @@
 {
   "id": "native-glass-opaque-layer-fix",
   "name": "Native Glass – YouBar Background Fix",
-  "description": "Reveal native iOS YouBar glass after UIKit attaches; persistent V3 diagnostic readout for the existing IPA, scoped and reversible.",
+  "description": "Companion YouBar Liquid Glass fix: handles either patch order and reports verification in native diagnostics.",
   "authors": [
     {
       "name": "Samuel",
       "id": "0"
     }
   ],
-  "version": "0.3.0",
+  "version": "0.4.0",
   "main": "index.js",
   "type": "plugin"
 }
