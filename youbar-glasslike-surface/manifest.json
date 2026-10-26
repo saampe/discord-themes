@@ -1,14 +1,14 @@
 {
   "id": "youbar-glasslike-surface",
   "name": "YouBar Glasslike Surface",
-  "description": "Replaces the black native-glass background with a translucent, reversible React Native surface. No new IPA. Restart to restore the bundled native patch.",
+  "description": "High-contrast visual proof: determine whether a plugin-only YouBar replacement is visible before attempting a glass finish.",
   "authors": [
     {
       "name": "Samuel",
       "id": "0"
     }
   ],
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "index.js",
   "type": "plugin"
 }
