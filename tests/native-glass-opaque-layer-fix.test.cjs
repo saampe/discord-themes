@@ -106,8 +106,12 @@ async function test() {
   assert.equal(mounted.props.children.type(mounted.props.children.props),null,
     "Remove the covering opaque subtree only after verified native attachment");
   assert.ok(ctx.__unboundGlassOverlayFixStatus.clearedBackgrounds > 0);
+  assert.match(ctx.__unboundGlassRuntimeStatus.code, /^OVERLAY_FIX_V2:r\\d+:u\\d+:h[1-9]\\d*:k\\d+$/,
+    "The current IPA diagnostics must expose proof that companion actually hid the background");
   cleanup();
   external.stop();
+  assert.equal(ctx.__unboundGlassRuntimeStatus.code,"",
+    "Disabling external plugin must remove its diagnostic marker");
   builtin.stop();
   assert.equal(target.type(),original,"Stopping both plugins restores Discord original");
 
