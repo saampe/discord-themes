@@ -106,7 +106,7 @@ async function test() {
   assert.equal(mounted.props.children.type(mounted.props.children.props),null,
     "Remove the covering opaque subtree only after verified native attachment");
   assert.ok(ctx.__unboundGlassOverlayFixStatus.clearedBackgrounds > 0);
-  assert.match(ctx.__unboundGlassRuntimeStatus.code, /^OVERLAY_FIX_V2:r\\d+:u\\d+:h[1-9]\\d*:k\\d+$/,
+  assert.match(ctx.__unboundGlassRuntimeStatus.code, /^OVERLAY_FIX_V2:r\d+:u\d+:h[1-9]\d*:k\d+$/,
     "The current IPA diagnostics must expose proof that companion actually hid the background");
   cleanup();
   external.stop();
