@@ -19,7 +19,10 @@
       "Built-in glass plugin: " + (report.phases.bundledPlugin?.present ? "YES" : "NO"),
       "YouBar module: " + (report.phases.targetModule?.found ? "YES" : "NO"),
       "YouBar function: " + (report.phases.targetModule?.memoizedFunction ? "YES" : "NO"),
-      "Native root: " + (report.phases.nativeTree?.rootFound ? "YES" : "NO")
+      "Native root: " + (report.phases.nativeTree?.rootFound ? "YES" : "NO"),
+      "Glass phase: " + (report.phases.glassActivation?.phase || "not reported"),
+      "Glass attached: " + (report.phases.glassActivation?.attached ? "YES" : "NO"),
+      "Glass error: " + (report.phases.glassActivation?.code || "none")
     ].join("\n");
     const buttons = [{text: "Close", style: "cancel"}];
     if (typeof Share?.share === "function") {
@@ -74,6 +77,22 @@
       hasStop: typeof builtIn?.stop === "function"
     };
     if (!builtIn) fail("BUNDLED_GLASS_PLUGIN_NOT_STARTED");
+    const glass = globalThis.__unboundGlassRuntimeStatus;
+    phases.glassActivation = glass && typeof glass === "object"
+      ? {
+          phase: String(glass.phase || "unknown").slice(0,80),
+          code: String(glass.code || "").slice(0,120),
+          patchInstalled: !!glass.patchInstalled,
+          renderObserved: !!glass.renderObserved,
+          attachAttempts: Number(glass.attachAttempts) || 0,
+          attached: !!glass.attached,
+          inspection: glass.inspection && typeof glass.inspection === "object"
+            ? glass.inspection : null
+        }
+      : {phase:"not reported", code:"", attached:false};
+    if (phases.glassActivation.phase === "failed")
+      fail("GLASS_ACTIVATION_FAILED");
+
     phases.metro = {
       present: !!metro,
       findByFilePath: typeof metro?.findByFilePath === "function",
