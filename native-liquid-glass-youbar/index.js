@@ -163,9 +163,10 @@
           }
         };
       }, []);
-      const background = glassReady
-        ? React.cloneElement(original, {...original.props, backgroundColor:"transparent"})
-        : original;
+      // On-device v0.5 companion proved that the masked Discord background
+      // must be removed entirely: setting its color to transparent leaves
+      // black UIKit composition. Keep it until real native attach succeeds.
+      const background = glassReady ? null : original;
       return React.createElement(NativeView, {
         testID: MARKER,
         collapsable: false,
