@@ -24,7 +24,7 @@ const context={console,setTimeout(){throw Error("Unexpected API wait")},clearTim
  }};
 context.globalThis=context;
 const plugin=vm.runInNewContext(`((React) => { return ${bundle} })`,context)(React);
-assert.equal(manifest.version,"1.0.0");
+assert.equal(manifest.version,"1.1.0");
 assert.equal(typeof plugin?.start,"function");
 plugin.start();
 assert.equal(nativeRemoved,1);
