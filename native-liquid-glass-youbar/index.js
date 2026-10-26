@@ -120,7 +120,9 @@
           } else {
             await inspect();
             if (mounted && epoch === generation) {
-              phase("failed", status.inspection?.reason || status.code || "NATIVE_ATTACH_FAILED");
+              const reason = status.inspection?.reason;
+              phase("failed", reason && reason !== "ANCHOR_FOUND"
+                ? reason : (status.code || "NATIVE_ATTACH_FAILED"));
               console.warn("[Native Liquid Glass] UIKit attachment failed:", status.code);
             }
           }
