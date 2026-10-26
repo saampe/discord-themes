@@ -1,14 +1,14 @@
 {
   "id": "native-glass-opaque-layer-fix",
   "name": "Native Glass – YouBar Background Fix",
-  "description": "Companion for the bundled iOS 26 native glass plugin: hides the original opaque YouBar background only after real UIKit glass attaches. Does not modify native bridge or global theme.",
+  "description": "Reveal native iOS YouBar glass after UIKit attaches; persistent V3 diagnostic readout for the existing IPA, scoped and reversible.",
   "authors": [
     {
       "name": "Samuel",
       "id": "0"
     }
   ],
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "index.js",
   "type": "plugin"
 }
