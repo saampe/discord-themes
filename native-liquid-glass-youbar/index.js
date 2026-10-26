@@ -5,6 +5,9 @@
   const ATTACH_RETRY_MS = 450;
   const INSTALL_RETRY_MS = 900;
   const MAX_INSTALL_ATTEMPTS = 24;
+  // Unbound can reconfigure its JS globals after our native bootstrap.
+  // Preserve the bridge host functions from this exact Hermes runtime.
+  const bootstrapObjc = globalThis.NativePlugin?.objc ?? null;
   let active = false;
   let epoch = 0;
   let patcher = null;
@@ -31,7 +34,7 @@
     const React = metro?.common?.React;
     const NativeView = metro?.common?.ReactNative?.View;
     const makePatcher = unbound?.patcher?.createPatcher;
-    const objc = globalThis.NativePlugin?.objc;
+    const objc = globalThis.NativePlugin?.objc ?? bootstrapObjc;
     const bridgeReady = typeof objc?.glassAttachById === "function" &&
       typeof objc?.glassDetachById === "function";
     const ready = bridgeReady &&
@@ -216,7 +219,7 @@
       status.patchInstalled = false;
       status.attached = false;
       phase("stopped");
-      const detach = globalThis.NativePlugin?.objc?.glassDetachById;
+      const detach = globalThis.NativePlugin?.objc?.glassDetachById ?? bootstrapObjc?.glassDetachById;
       if (typeof detach === "function") {
         try {
           Promise.resolve(detach(MARKER))
