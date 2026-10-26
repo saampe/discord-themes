@@ -4,6 +4,8 @@ const assert=require("node:assert/strict");
 const src=fs.readFileSync("native-glass-diagnostic/index.js","utf8");
 const events=[];
 const tasks=[];
+let visibleAlert=null;
+let sharedReport=null;
 const context={
   console:{log:(...x)=>events.push(x.join(" ")),warn:(...x)=>events.push(x.join(" "))},
   Date,JSON,Array,String,Promise,
@@ -13,7 +15,7 @@ const context={
     patcher:{createPatcher:()=>{throw Error("Diagnostic must not patch UI")}},
     metro:{
       findByFilePath:()=>({default:{type:()=>null}}),
-      common:{React:{},ReactNative:{View:{}}}
+      common:{React:{},ReactNative:{View:{},Alert:{alert:(title,message,buttons)=>{visibleAlert={title,message,buttons};}},Share:{share:async args=>{sharedReport=args.message;return {action:"sharedAction"};}}}}
     }
   },
   NativePlugin:{
@@ -41,6 +43,13 @@ assert.equal(tasks.length,1);
  assert.equal(report.phases.targetModule.memoizedFunction,true);
  assert.equal(report.phases.nativeTree.rootFound,true);
  assert.ok(events.some(x=>x.includes("[Native Glass Diagnostic]")));
+ assert.equal(visibleAlert.title,"Native Glass Diagnostic");
+ assert.ok(visibleAlert.message.includes("Built-in glass plugin: YES"));
+ const button=visibleAlert.buttons.find(x=>x.text==="Share Full Report");
+ assert.ok(button,"share button must be available on iPhone");
+ button.onPress();
+ await new Promise(resolve=>setImmediate(resolve));
+ assert.equal(JSON.parse(sharedReport).phases.targetModule.memoizedFunction,true);
  diagnostic.stop();
  assert.equal(context.__unboundGlassDiagnostic,undefined);
  console.log("PASS: read-only installed-glass diagnostics exports report without UI mutation");
