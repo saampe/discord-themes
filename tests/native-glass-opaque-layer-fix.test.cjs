@@ -140,6 +140,60 @@ async function test() {
   assert.equal(ctx.__unboundGlassOverlayFixStatus.patchInstalled,true);
   externalFirst.stop();
   bundledLater.stop();
+  // Real Unbound uses possess to chain "after" callbacks. Do not assume
+  // the companion's callback necessarily sees the native wrapper already.
+  // Verify reversed callback order preserves the native host element too.
+  {
+    const reverseCallbacks = [];
+    const reverseBase = {type:"OpaqueBackground",props:{backgroundColor:"#181818"}};
+    const reverseComponent = {type:() => reverseBase};
+    const reversePatcher = {
+      createPatcher: () => ({
+        after(_,key,callback) {
+          assert.equal(key,"type");
+          reverseCallbacks.push(callback);
+        },
+        unpatchAll(){}
+      })
+    };
+    const reverseNativeView = {view:"native-reversed"};
+    const reverseReact = {
+      ...React,
+      useState:()=>[false,()=>{}],
+      useEffect:()=>{},
+    };
+    const reverseContext = {
+      console,Promise,setTimeout:setTimer,clearTimeout:clearTimer,
+      NativePlugin:{objc:{glassAttachById:async()=>true,glassDetachById:async()=>{}}},
+      unbound:{
+        metro:{
+          findByFilePath:()=>({default:reverseComponent}),
+          common:{React:reverseReact,ReactNative:{View:reverseNativeView}}
+        },
+        patcher:reversePatcher
+      },
+    };
+    reverseContext.globalThis=reverseContext;
+    const reverseNative = vm.runInNewContext(bundled,reverseContext);
+    reverseNative.start();
+    const reverseCompanion = vm.runInNewContext(companion,reverseContext);
+    reverseCompanion.start();
+    assert.equal(reverseCallbacks.length,2);
+    let value=reverseBase;
+    // Companion receives original first; bundled native hook wraps afterwards.
+    for (const callback of [...reverseCallbacks].reverse()) {
+      value=callback({result:value});
+    }
+    assert.equal(typeof value.type,"function","Native wrapper must be outermost");
+    assert.equal(typeof value.props.original.type,"function",
+      "Companion must wrap the original background when called first");
+    assert.equal(value.props.original.type({
+      ...value.props.original.props,backgroundColor:"transparent"
+    }),null,"Native glass transparency should remove the original child");
+    reverseCompanion.stop();
+    reverseNative.stop();
+  }
+
   console.log("PASS companion: background fallback, bridge-independent overlay removal, late startup, safe restore");
 }
 test().catch(err => {console.error(err); process.exitCode = 1;});
