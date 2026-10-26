@@ -57,14 +57,14 @@
             position:"absolute",top:0,bottom:0,left:0,right:0,
             borderRadius:999,
             overflow:"hidden",
-            backgroundColor:"rgba(165,174,196,0.18)",
-            borderWidth:0.7,
-            borderColor:"rgba(236,242,255,0.19)"
+            backgroundColor:"rgba(115,145,198,0.82)",
+            borderWidth:1.5,
+            borderColor:"rgba(235,245,255,0.92)"
           }
         });
       });
       state.installed = true;
-      state.phase = "ready";
+      state.phase = "ready-visible-proof";
       patched = true;
     } catch (error) {
       state.phase = "failed";
