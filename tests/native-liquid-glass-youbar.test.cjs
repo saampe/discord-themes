@@ -165,6 +165,24 @@ async function run(){
   assert.equal(replacementDetaches,1,"Current mount must detach its host");
   replacementPlugin.stop();
   assert.equal(component.type,originalType);
-  console.log("PASS: exact marker, opaque fallback, confirmed glass, scoped theme, missing-bridge recovery, late attach, replacement ownership, rollback");
+  // Unbound may overwrite NativePlugin while Metro is still initializing.
+  // Cached same-runtime UIKit host functions must survive that transition.
+  const delayedMetro = {...context.unbound.metro,findByFilePath:undefined};
+  const cachedContext = {
+    ...context,
+    unbound:{...context.unbound,metro:delayedMetro}
+  };
+  cachedContext.globalThis = cachedContext;
+  const cachedPlugin = vm.runInNewContext(source,cachedContext);
+  cachedPlugin.start();
+  assert.equal(cachedContext.__unboundGlassRuntimeStatus.code,"REACT_OR_METRO_API_MISSING");
+  cachedContext.NativePlugin = undefined;
+  cachedContext.unbound.metro.findByFilePath = context.unbound.metro.findByFilePath;
+  assert.equal(await tick(),true);
+  assert.equal(cachedContext.__unboundGlassRuntimeStatus.patchInstalled,true,
+    "Native functions captured at bootstrap must remain available after global reset");
+  cachedPlugin.stop();
+  assert.equal(component.type,originalType);
+  console.log("PASS: exact marker, opaque fallback, confirmed glass, scoped theme, bridge recovery and retention, late attach, replacement ownership, rollback");
 }
 run().catch(error=>{console.error(error);process.exitCode=1;});
