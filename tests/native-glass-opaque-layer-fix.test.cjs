@@ -106,12 +106,21 @@ async function test() {
   assert.equal(mounted.props.children.type(mounted.props.children.props),null,
     "Remove the covering opaque subtree only after verified native attachment");
   assert.ok(ctx.__unboundGlassOverlayFixStatus.clearedBackgrounds > 0);
-  assert.match(ctx.__unboundGlassRuntimeStatus.code, /^OVERLAY_FIX_V2:r\d+:u\d+:h[1-9]\d*:k\d+$/,
+  assert.match(ctx.__unboundGlassRuntimeStatus.code, /^OVERLAY_FIX_V3:p1:r\d+:u\d+:h[1-9]\d*:k\d+$/,
     "The current IPA diagnostics must expose proof that companion actually hid the background");
+  // Bundled plugin uses phase(name, code="") during redraws and navigation.
+  // Companion diagnostic must persist over that write, not vanish.
+  ctx.__unboundGlassRuntimeStatus.code = "";
+  assert.match(ctx.__unboundGlassRuntimeStatus.code, /^OVERLAY_FIX_V3:p1:/,
+    "Native phase resets must not erase companion status");
+  ctx.__unboundGlassRuntimeStatus.code = "REAL_NATIVE_ERROR";
+  assert.equal(ctx.__unboundGlassRuntimeStatus.code,"REAL_NATIVE_ERROR",
+    "Native errors take precedence over cosmetic diagnostics");
+  ctx.__unboundGlassRuntimeStatus.code = "";
   cleanup();
   external.stop();
-  assert.equal(String(ctx.__unboundGlassRuntimeStatus.code).startsWith("OVERLAY_FIX_V2"),false,
-    "Disabling external plugin must not leave its diagnostic marker");
+  assert.equal(String(ctx.__unboundGlassRuntimeStatus.code).startsWith("OVERLAY_FIX_V3"),false,
+    "Disabling external plugin must remove its diagnostic accessor");
   builtin.stop();
   assert.equal(target.type(),original,"Stopping both plugins restores Discord original");
 
