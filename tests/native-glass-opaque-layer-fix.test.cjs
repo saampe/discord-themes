@@ -2,7 +2,12 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const vm = require("node:vm");
 
-const bundled = fs.readFileSync("native-liquid-glass-youbar/index.js", "utf8");
+// Verify the companion against the older IPA where the built-in plugin only
+// changed backgroundColor. The FINAL IPA manages this itself and does not
+// require the companion. Preserve a regression for existing installations.
+const bundled = fs.readFileSync("native-liquid-glass-youbar/index.js", "utf8")
+  .replace("const background = glassReady ? null : original;",
+    'const background = glassReady ? React.cloneElement(original, {...original.props, backgroundColor:"transparent"}) : original;');
 const companion = fs.readFileSync("native-glass-opaque-layer-fix/index.js", "utf8");
 const manifest = JSON.parse(fs.readFileSync("native-glass-opaque-layer-fix/manifest.json", "utf8"));
 // Match Unbound's real handleBundle: eval(`((React) => { return ${bundle} })`).
