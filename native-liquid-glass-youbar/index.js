@@ -10,6 +10,8 @@
   let patcher = null;
   let installTimer = null;
   let patched = false;
+  let nextMountId = 0;
+  let latestMountId = 0;
 
   // Explicit diagnostics for the installed client, no message/user content.
   const status = {
@@ -81,6 +83,21 @@
         let timer = null;
         let hasAttached = false;
         let tries = 0;
+        const mountId = ++nextMountId;
+        latestMountId = mountId;
+
+        // The native attach promise can complete after a component unmount.
+        // Only the most recent marked host may be detached by identifier:
+        // an older cleanup must never remove glass from its replacement.
+        const detachIfCurrent = () => {
+          if (mountId !== latestMountId) return;
+          try {
+            Promise.resolve(objc.glassDetachById(MARKER))
+              .catch(() => console.warn("[Native Liquid Glass] Detach failed"));
+          } catch {
+            console.warn("[Native Liquid Glass] Detach failed");
+          }
+        };
 
         const inspect = async () => {
           if (typeof objc.glassInspectById !== "function") return;
@@ -101,7 +118,12 @@
           phase("attaching");
           try {
             const ok = await objc.glassAttachById(MARKER, true, true);
-            if (!mounted || !active || epoch !== generation) return;
+            if (!mounted || !active || epoch !== generation) {
+              // Stop/unmount may have happened while UIKit was attaching.
+              // Release late success, but do not touch a newer mount's host.
+              if (ok) detachIfCurrent();
+              return;
+            }
             if (ok) {
               hasAttached = true;
               status.attached = true;
@@ -134,12 +156,7 @@
           if (hasAttached) {
             status.attached = false;
             phase("detached", "COMPONENT_UNMOUNTED");
-            try {
-              Promise.resolve(objc.glassDetachById(MARKER))
-                .catch(() => console.warn("[Native Liquid Glass] Detach failed"));
-            } catch {
-              console.warn("[Native Liquid Glass] Detach failed");
-            }
+            detachIfCurrent();
           }
         };
       }, []);
