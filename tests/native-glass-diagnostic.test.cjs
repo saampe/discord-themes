@@ -52,5 +52,17 @@ assert.equal(tasks.length,1);
  assert.equal(JSON.parse(sharedReport).phases.targetModule.memoizedFunction,true);
  diagnostic.stop();
  assert.equal(context.__unboundGlassDiagnostic,undefined);
+ context.__unboundGlassRuntimeStatus={
+   phase:"failed",code:"ANCHOR_NOT_FOUND",
+   patchInstalled:true,renderObserved:true,attachAttempts:14,attached:false
+ };
+ diagnostic.start();
+ await tasks[1]();
+ await new Promise(resolve=>setImmediate(resolve));
+ assert.equal(context.__unboundGlassDiagnostic.failure,"GLASS_ACTIVATION_FAILED");
+ assert.equal(context.__unboundGlassDiagnostic.phases.glassActivation.code,"ANCHOR_NOT_FOUND");
+ assert.ok(visibleAlert.message.includes("Glass error: ANCHOR_NOT_FOUND"));
+ diagnostic.stop();
+
  console.log("PASS: read-only installed-glass diagnostics exports report without UI mutation");
 })().catch(e=>{console.error(e);process.exitCode=1});
