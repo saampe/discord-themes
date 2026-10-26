@@ -70,8 +70,8 @@ async function run(){
     "Native glass plugin must not modify Titanium Blue or any global theme tokens");
   assert.equal(await tick(),true);
   const second=wrapped.type(wrapped.props);
-  assert.equal(second.props.children.props.backgroundColor,"transparent",
-    "Only a confirmed UIKit attachment makes the bar transparent");
+  assert.equal(second.props.children,null,
+    "Only a confirmed UIKit attachment removes Discord's opaque masked background subtree");
   if(cleanup)cleanup();
   plugin.stop();
   assert.equal(component.type,originalType);
