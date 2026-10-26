@@ -1,0 +1,14 @@
+{
+  "id": "native-glass-diagnostic",
+  "name": "Native Glass Diagnostic",
+  "description": "Read-only diagnostic: checks bundled UIKit glass bridge, YouBar module and native view hierarchy. Does not modify appearance.",
+  "authors": [
+    {
+      "name": "Samuel",
+      "id": "0"
+    }
+  ],
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "plugin"
+}
