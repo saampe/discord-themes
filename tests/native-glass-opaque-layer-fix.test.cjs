@@ -5,6 +5,13 @@ const vm = require("node:vm");
 const bundled = fs.readFileSync("native-liquid-glass-youbar/index.js", "utf8");
 const companion = fs.readFileSync("native-glass-opaque-layer-fix/index.js", "utf8");
 const manifest = JSON.parse(fs.readFileSync("native-glass-opaque-layer-fix/manifest.json", "utf8"));
+// Match Unbound's real handleBundle: eval(`((React) => { return ${bundle} })`).
+// A leading line comment silently consumes the return and leaves the plugin
+// switch enabled while start() never runs. Direct vm evaluation misses this.
+function loadViaUnbound(bundle, context, React) {
+  const wrapper = vm.runInNewContext(`((React) => { return ${bundle} })`, context);
+  return wrapper(React);
+}
 assert.notEqual(manifest.id, "native-liquid-glass-youbar",
   "Companion must not trigger bundled-plugin suppression in this IPA");
 
@@ -81,7 +88,10 @@ async function test() {
   assert.equal(ctx.__unboundGlassRuntimeStatus.patchInstalled,true);
   // Real exported global is absent after Unbound JS loads in the phone.
   ctx.NativePlugin=undefined;
-  const external = vm.runInNewContext(companion,ctx);
+  assert.equal(loadViaUnbound("// leading comment\\n"+companion,ctx,React),undefined,
+    "A leading JS comment must be caught as Unbound startup regression");
+  const external = loadViaUnbound(companion,ctx,React);
+  assert.equal(typeof external?.start,"function","Unbound loader must receive start()");
   external.start();
   assert.equal(ctx.__unboundGlassOverlayFixStatus.patchInstalled,true);
   assert.deepEqual(patchers,["native-liquid-glass-youbar","native-glass-opaque-layer-fix"]);
@@ -132,7 +142,7 @@ async function test() {
 
   // External plugin loading before bundled glass must not race or shadow it.
   state = false; cleanup = null; effectUsed = false;
-  const externalFirst = vm.runInNewContext(companion,ctx);
+  const externalFirst = loadViaUnbound(companion,ctx,React);
   delete ctx.__unboundGlassRuntimeStatus;
   externalFirst.start();
   assert.equal(ctx.__unboundGlassOverlayFixStatus.phase,"waiting-for-bundled-glass");
@@ -182,7 +192,7 @@ async function test() {
     reverseContext.globalThis=reverseContext;
     const reverseNative = vm.runInNewContext(bundled,reverseContext);
     reverseNative.start();
-    const reverseCompanion = vm.runInNewContext(companion,reverseContext);
+    const reverseCompanion = loadViaUnbound(companion,reverseContext,reverseReact);
     reverseCompanion.start();
     assert.equal(reverseCallbacks.length,2);
     let value=reverseBase;
