@@ -106,6 +106,10 @@ async function test() {
   assert.equal(mounted.props.children.type(mounted.props.children.props),null,
     "Remove the covering opaque subtree only after verified native attachment");
   assert.ok(ctx.__unboundGlassOverlayFixStatus.clearedBackgrounds > 0);
+  assert.equal(ctx.__unboundGlassRuntimeStatus.inspection?.overlayFix?.version,4,
+    "Existing iPhone diagnostic inspection must include independent companion status");
+  assert.ok(ctx.__unboundGlassRuntimeStatus.inspection?.overlayFix?.hidden > 0,
+    "Diagnostic must report actual removal of opaque YouBar background");
   assert.match(ctx.__unboundGlassRuntimeStatus.code, /^OVERLAY_FIX_V3:p1:r\d+:u\d+:h[1-9]\d*:k\d+$/,
     "The current IPA diagnostics must expose proof that companion actually hid the background");
   // Bundled plugin uses phase(name, code="") during redraws and navigation.
@@ -119,6 +123,8 @@ async function test() {
   ctx.__unboundGlassRuntimeStatus.code = "";
   cleanup();
   external.stop();
+  assert.equal(ctx.__unboundGlassRuntimeStatus.inspection?.overlayFix,undefined,
+    "Disabling companion must restore untouched native inspection");
   assert.equal(String(ctx.__unboundGlassRuntimeStatus.code).startsWith("OVERLAY_FIX_V3"),false,
     "Disabling external plugin must remove its diagnostic accessor");
   builtin.stop();
