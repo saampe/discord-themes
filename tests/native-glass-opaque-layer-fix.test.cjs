@@ -1,0 +1,132 @@
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const vm = require("node:vm");
+
+const bundled = fs.readFileSync("native-liquid-glass-youbar/index.js", "utf8");
+const companion = fs.readFileSync("native-glass-opaque-layer-fix/index.js", "utf8");
+const manifest = JSON.parse(fs.readFileSync("native-glass-opaque-layer-fix/manifest.json", "utf8"));
+assert.notEqual(manifest.id, "native-liquid-glass-youbar",
+  "Companion must not trigger bundled-plugin suppression in this IPA");
+
+async function test() {
+  const timers = [];
+  const setTimer = fn => {
+    const t = {fn, cancelled:false, done:false};
+    timers.push(t);
+    return t;
+  };
+  const clearTimer = timer => {timer.cancelled = true;};
+  async function tick() {
+    const t = timers.find(x => !x.done && !x.cancelled);
+    if (!t) return false;
+    t.done = true;
+    await t.fn();
+    await Promise.resolve();
+    return true;
+  }
+
+  let state = false, cleanup = null, effectUsed = false;
+  const NativeView = {view:"native"};
+  const React = {
+    isValidElement: item => !!item && typeof item === "object" && "type" in item,
+    createElement: (type, props, ...children) =>
+      ({type, props:{...(props || {}), ...(
+        children.length ? {children:children.length === 1 ? children[0] : children} : {}
+      )}}),
+    cloneElement: (item, props) => ({...item,props:{...item.props,...props}}),
+    useState: () => [state, value => { state = value; }],
+    useEffect(fn) {if (!effectUsed) {effectUsed = true;cleanup = fn();}}
+  };
+  const original = {type:"OriginalMaskedBackground",props:{backgroundColor:"#222",barWidth:345}};
+  const target = {type:()=>original};
+  const patchers = [];
+  const ctx = {
+    console, Promise, setTimeout:setTimer, clearTimeout:clearTimer,
+    NativePlugin:{objc:{
+      glassAttachById:async()=>true,
+      glassDetachById:async()=>undefined,
+      glassInspectById:async()=>JSON.stringify({materialAttached:1,coveringOpaqueChildren:1})
+    }},
+    unbound: {
+      metro: {
+        findByFilePath(p) {
+          assert.equal(p,"modules/main_tabs_v2/native/you_bar/YouBarBackground.tsx");
+          return {default:target};
+        },
+        common:{React,ReactNative:{View:NativeView}}
+      },
+      patcher:{
+        createPatcher(name) {
+          const owned = [];
+          return {
+            after(object,key,callback) {
+              const previous = object[key];
+              object[key] = (...args) => {
+                const result = previous(...args);
+                return callback({result,args}) ?? result;
+              };
+              owned.push(()=>{ object[key] = previous; });
+              patchers.push(name);
+            },
+            unpatchAll(){while(owned.length) owned.pop()();}
+          };
+        }
+      }
+    }
+  };
+  ctx.globalThis = ctx;
+
+  const builtin = vm.runInNewContext(bundled,ctx);
+  builtin.start();
+  assert.equal(ctx.__unboundGlassRuntimeStatus.patchInstalled,true);
+  // Real exported global is absent after Unbound JS loads in the phone.
+  ctx.NativePlugin=undefined;
+  const external = vm.runInNewContext(companion,ctx);
+  external.start();
+  assert.equal(ctx.__unboundGlassOverlayFixStatus.patchInstalled,true);
+  assert.deepEqual(patchers,["native-liquid-glass-youbar","native-glass-opaque-layer-fix"]);
+
+  const builtInLayer = target.type();
+  assert.equal(typeof builtInLayer.type,"function");
+  const safeOriginal = builtInLayer.props.original;
+  assert.equal(typeof safeOriginal.type,"function");
+  assert.equal(safeOriginal.type(safeOriginal.props), original,
+    "Original opaque background must remain before verified glass attach");
+
+  const initial = builtInLayer.type(builtInLayer.props);
+  assert.equal(initial.type,NativeView);
+  assert.equal(initial.props.children.type,safeOriginal.type);
+  assert.equal(initial.props.children.type(initial.props.children.props),original,
+    "Fallback remains unchanged while UIKit glass is not yet attached");
+
+  assert.equal(await tick(),true);
+  assert.equal(ctx.__unboundGlassRuntimeStatus.phase,"attached");
+  const mounted = builtInLayer.type(builtInLayer.props);
+  assert.equal(mounted.props.children.props.backgroundColor,"transparent");
+  assert.equal(mounted.props.children.type(mounted.props.children.props),null,
+    "Remove the covering opaque subtree only after verified native attachment");
+  assert.ok(ctx.__unboundGlassOverlayFixStatus.clearedBackgrounds > 0);
+  cleanup();
+  external.stop();
+  builtin.stop();
+  assert.equal(target.type(),original,"Stopping both plugins restores Discord original");
+
+  // External plugin loading before bundled glass must not race or shadow it.
+  state = false; cleanup = null; effectUsed = false;
+  const externalFirst = vm.runInNewContext(companion,ctx);
+  delete ctx.__unboundGlassRuntimeStatus;
+  externalFirst.start();
+  assert.equal(ctx.__unboundGlassOverlayFixStatus.phase,"waiting-for-bundled-glass");
+  ctx.NativePlugin = {objc:{
+    glassAttachById:async()=>true,glassDetachById:async()=>undefined
+  }};
+  const bundledLater = vm.runInNewContext(bundled,ctx);
+  bundledLater.start();
+  assert.equal(ctx.__unboundGlassRuntimeStatus.patchInstalled,true);
+  assert.equal(await tick(),true,"Waiting companion should retry");
+  assert.equal(ctx.__unboundGlassOverlayFixStatus.patchInstalled,true);
+  externalFirst.stop();
+  bundledLater.stop();
+  console.log("PASS companion: background fallback, bridge-independent overlay removal, late startup, safe restore");
+}
+test().catch(err => {console.error(err); process.exitCode = 1;});
