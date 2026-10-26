@@ -1,0 +1,14 @@
+{
+  "id": "native-glass-clear-mode",
+  "name": "Native Glass – Clear Mode",
+  "description": "Switch YouBar native Liquid Glass from Regular to Clear on the next native mount; disable for Regular. Requires the final native-glass IPA.",
+  "authors": [
+    {
+      "name": "Samuel",
+      "id": "0"
+    }
+  ],
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "plugin"
+}
