@@ -4,6 +4,8 @@ on:
     branches: [main]
     paths:
       - 'native-liquid-glass-youbar/**'
+      - 'native-glass-diagnostic/**'
+      - 'tests/native-glass-diagnostic.test.cjs'
       - 'tests/native-liquid-glass-youbar.test.cjs'
       - '.github/workflows/verify-native-glass-plugin.yml'
   workflow_dispatch:
@@ -21,7 +23,11 @@ jobs:
         run: |
           node --version
           node --check native-liquid-glass-youbar/index.js
+          node --check native-glass-diagnostic/index.js
+          node --check tests/native-glass-diagnostic.test.cjs
           node --check native-glass-navigation/index.js
           node --check tests/native-liquid-glass-youbar.test.cjs
       - name: Exercise scoped React Native component and rollback
-        run: node tests/native-liquid-glass-youbar.test.cjs
+        run: |
+          node tests/native-liquid-glass-youbar.test.cjs
+          node tests/native-glass-diagnostic.test.cjs
