@@ -120,7 +120,11 @@
           status.attachAttempts++;
           phase("attaching");
           try {
-            const ok = await objc.glassAttachById(MARKER, true, true);
+            // Regular is the UIKit default and provides stronger contrast.
+            // Optional plugin tuning can opt back into Clear before the next
+            // YouBar mount; no further native rebuild is needed for that.
+            const clearStyle = globalThis.__unboundGlassPreferences?.clearStyle === true;
+            const ok = await objc.glassAttachById(MARKER, clearStyle, true);
             if (!mounted || !active || epoch !== generation) {
               // Stop/unmount may have happened while UIKit was attaching.
               // Release late success, but do not touch a newer mount's host.
