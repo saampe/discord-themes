@@ -105,24 +105,25 @@
       patcher = createPatcher("native-glass-opaque-layer-fix");
       patcher.after(target, "type", ({result}) => {
         if (!active) return result;
-        if (!React.isValidElement(result) ||
-            !React.isValidElement(result.props?.original) ||
-            typeof result.type !== "function") {
+        if (!React.isValidElement(result)) {
           status.unmatchedResults++;
           report();
           return result;
         }
-        // Do not replace the bundled native hook, attach lifecycle or marker.
-        // Replace its original-background prop with a reversible wrapper.
-        // When the bundled hook clones this wrapper with a transparent color
-        // (after successful native attach), GlassAwareOriginal returns null.
+        // Unbound's patcher can run multiple "after" callbacks in either
+        // order. If native glass has wrapped YouBar already, replace only its
+        // "original" prop. Otherwise wrap the ORIGINAL background now; the
+        // built-in patch will later wrap our element and add the UIKit anchor.
+        // Both paths keep original content before glass is attached.
+        const isNativeWrapper = typeof result.type === "function" &&
+          React.isValidElement(result.props?.original);
+        const source = isNativeWrapper ? result.props.original : result;
+        const wrappedBackground = React.createElement(GlassAwareOriginal, {source});
         status.renderMatches++;
         report();
-        return React.cloneElement(result, {
-          original: React.createElement(GlassAwareOriginal, {
-            source: result.props.original
-          })
-        });
+        return isNativeWrapper
+          ? React.cloneElement(result, {original:wrappedBackground})
+          : wrappedBackground;
       });
       patched = true;
       status.patchInstalled = true;
