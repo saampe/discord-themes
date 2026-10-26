@@ -13,8 +13,23 @@
   let patched = false;
   const status = {
     phase: "idle", patchInstalled: false,
-    wrappedBackgrounds: 0, clearedBackgrounds: 0
+    renderMatches: 0, unmatchedResults: 0,
+    clearedBackgrounds: 0, keptBackgrounds: 0
   };
+
+  // The installed IPA's native diagnostics serializer has no companion field.
+  // Its existing pluginStatus.code is safe to use for a short, read-only
+  // progress marker, without changing the native bridge or rebuilding the IPA.
+  function report() {
+    const builtIn = globalThis.__unboundGlassRuntimeStatus;
+    if (builtIn?.phase === "attached" &&
+        (!builtIn.code || String(builtIn.code).startsWith("OVERLAY_FIX_V2"))) {
+      builtIn.code = "OVERLAY_FIX_V2:r" + status.renderMatches +
+        ":u" + status.unmatchedResults +
+        ":h" + status.clearedBackgrounds +
+        ":k" + status.keptBackgrounds;
+    }
+  }
 
   function GlassAwareOriginal({source, backgroundColor}) {
     // Bundled NativeGlassYouBarLayer applies backgroundColor="transparent"
@@ -23,8 +38,11 @@
     // background-only subtree while keeping the native glass host alive.
     if (backgroundColor === "transparent") {
       status.clearedBackgrounds++;
+      report();
       return null;
     }
+    status.keptBackgrounds++;
+    report();
     return source; // Safe, unchanged Discord fallback before attachment.
   }
 
@@ -52,15 +70,20 @@
       if (!target || typeof target.type !== "function") throw Error("Component unavailable");
       patcher = createPatcher("native-glass-opaque-layer-fix");
       patcher.after(target, "type", ({result}) => {
-        if (!active || !React.isValidElement(result) ||
+        if (!active) return result;
+        if (!React.isValidElement(result) ||
             !React.isValidElement(result.props?.original) ||
-            typeof result.type !== "function")
+            typeof result.type !== "function") {
+          status.unmatchedResults++;
+          report();
           return result;
+        }
         // Do not replace the bundled native hook, attach lifecycle or marker.
         // Replace its original-background prop with a reversible wrapper.
         // When the bundled hook clones this wrapper with a transparent color
         // (after successful native attach), GlassAwareOriginal returns null.
-        status.wrappedBackgrounds++;
+        status.renderMatches++;
+        report();
         return React.cloneElement(result, {
           original: React.createElement(GlassAwareOriginal, {
             source: result.props.original
@@ -70,6 +93,7 @@
       patched = true;
       status.patchInstalled = true;
       status.phase = "hook-installed";
+      report();
     } catch {
       patcher?.unpatchAll?.();
       patcher = null;
@@ -83,8 +107,10 @@
       active = true;
       patched = false;
       status.patchInstalled = false;
-      status.wrappedBackgrounds = 0;
+      status.renderMatches = 0;
+      status.unmatchedResults = 0;
       status.clearedBackgrounds = 0;
+      status.keptBackgrounds = 0;
       status.phase = "starting";
       globalThis.__unboundGlassOverlayFixStatus = status;
       install(++generation);
@@ -99,6 +125,9 @@
       patched = false;
       status.patchInstalled = false;
       status.phase = "stopped";
+      const nativeStatus = globalThis.__unboundGlassRuntimeStatus;
+      if (String(nativeStatus?.code ?? "").startsWith("OVERLAY_FIX_V2"))
+        nativeStatus.code = "";
     }
   };
 })()
