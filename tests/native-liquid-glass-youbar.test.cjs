@@ -75,6 +75,20 @@ async function run(){
   if(cleanup)cleanup();
   plugin.stop();
   assert.equal(component.type,originalType);
-  console.log("PASS: exact marker, opaque fallback, confirmed glass, isolated palette, rollback");
+  assert.equal(context.__unboundGlassRuntimeStatus.phase,"stopped");
+  // The installed client previously lacked NativePlugin after core JS startup.
+  // Verify the plugin can recover when the native bridge appears on a retry.
+  const missingBridge = {...context, NativePlugin:undefined};
+  missingBridge.globalThis = missingBridge;
+  const recovering = vm.runInNewContext(source,missingBridge);
+  recovering.start();
+  assert.equal(missingBridge.__unboundGlassRuntimeStatus.code,"NATIVE_BRIDGE_MISSING");
+  assert.equal(missingBridge.__unboundGlassRuntimeStatus.patchInstalled,false);
+  missingBridge.NativePlugin = context.NativePlugin;
+  assert.equal(await tick(),true);
+  assert.equal(missingBridge.__unboundGlassRuntimeStatus.patchInstalled,true);
+  recovering.stop();
+  assert.equal(component.type,originalType);
+  console.log("PASS: exact marker, opaque fallback, confirmed glass, scoped theme, missing-bridge recovery, rollback");
 }
 run().catch(error=>{console.error(error);process.exitCode=1;});
