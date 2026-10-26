@@ -22,6 +22,7 @@
   // that object. The bundled plugin repeatedly sets code="" while attaching;
   // an accessor survives those writes without suppressing genuine failures.
   let restoreCode = null;
+  let restoreInspection = null;
   let mirroredStatus = null;
   function telemetry() {
     return "OVERLAY_FIX_V3:p" + Number(status.patchInstalled) +
@@ -35,6 +36,7 @@
     if (!active || !host || typeof host !== "object") return;
     if (host === mirroredStatus) return;
     if (restoreCode) { restoreCode(); restoreCode = null; }
+    if (restoreInspection) { restoreInspection(); restoreInspection = null; }
     const oldDescriptor = Object.getOwnPropertyDescriptor(host, "code");
     if (oldDescriptor && (!oldDescriptor.configurable ||
         !Object.prototype.hasOwnProperty.call(oldDescriptor, "value")))
@@ -58,6 +60,42 @@
           });
         mirroredStatus = null;
       };
+      // Independent confirmation in the already-exported native inspection
+      // object, rather than relying on the mutable "code" diagnostic alone.
+      const inspectionDescriptor = Object.getOwnPropertyDescriptor(host, "inspection");
+      if (!inspectionDescriptor || (inspectionDescriptor.configurable &&
+          Object.prototype.hasOwnProperty.call(inspectionDescriptor, "value"))) {
+        let nativeInspection = host.inspection;
+        const getInspection = () => {
+          if (!nativeInspection || typeof nativeInspection !== "object")
+            return nativeInspection;
+          return {
+            ...nativeInspection,
+            overlayFix: {
+              version: 4,
+              phase: status.phase,
+              patchInstalled: status.patchInstalled,
+              wrapped: status.renderMatches,
+              unmatched: status.unmatchedResults,
+              hidden: status.clearedBackgrounds,
+              kept: status.keptBackgrounds
+            }
+          };
+        };
+        try {
+          Object.defineProperty(host, "inspection", {
+            configurable: true, enumerable: true,
+            get: getInspection, set: value => { nativeInspection = value; }
+          });
+          restoreInspection = () => {
+            if (Object.getOwnPropertyDescriptor(host, "inspection")?.get === getInspection)
+              Object.defineProperty(host, "inspection", {
+                configurable: true, enumerable: true, writable: true,
+                value: nativeInspection
+              });
+          };
+        } catch { /* Native inspection stays unchanged on restricted hosts. */ }
+      }
     } catch {
       mirroredStatus = null;
     }
@@ -161,6 +199,7 @@
       status.patchInstalled = false;
       status.phase = "stopped";
       if (restoreCode) { restoreCode(); restoreCode = null; }
+      if (restoreInspection) { restoreInspection(); restoreInspection = null; }
     }
   };
 })()
