@@ -5,6 +5,36 @@
   const MARKER = "unbound.glass.youbar.background";
   let generation = 0, timer = null;
 
+  function showReport(report) {
+    const rn = globalThis.unbound?.metro?.common?.ReactNative;
+    const Alert = rn?.Alert;
+    const Share = rn?.Share;
+    if (typeof Alert?.alert !== "function") {
+      console.warn("[Native Glass Diagnostic] React Native Alert unavailable; report remains in __unboundGlassDiagnostic");
+      return;
+    }
+    const detail = [
+      "Status: " + (report.failure || "No obvious startup failure"),
+      "Native glass bridge: " + (report.phases.loader?.glassAttachById ? "YES" : "NO"),
+      "Built-in glass plugin: " + (report.phases.bundledPlugin?.present ? "YES" : "NO"),
+      "YouBar module: " + (report.phases.targetModule?.found ? "YES" : "NO"),
+      "YouBar function: " + (report.phases.targetModule?.memoizedFunction ? "YES" : "NO"),
+      "Native root: " + (report.phases.nativeTree?.rootFound ? "YES" : "NO")
+    ].join("\n");
+    const buttons = [{text: "Close", style: "cancel"}];
+    if (typeof Share?.share === "function") {
+      buttons.unshift({text: "Share Full Report", onPress: () => {
+        try {
+          Promise.resolve(Share.share({message: JSON.stringify(report,null,2),title: "Native Glass Diagnostic"}))
+            .catch(error => console.warn("[Native Glass Diagnostic] Sharing failed:", String(error)));
+        } catch (error) {
+          console.warn("[Native Glass Diagnostic] Sharing unavailable:", String(error));
+        }
+      }});
+    }
+    Alert.alert("Native Glass Diagnostic", detail, buttons);
+  }
+
   function summarize(value) {
     if (value == null) return null;
     if (Array.isArray(value)) return { count: value.length };
@@ -99,6 +129,7 @@
     const result = JSON.stringify(report,null,2);
     globalThis.__unboundGlassDiagnostic = report;
     console.log("[Native Glass Diagnostic] " + result);
+    showReport(report);
     // Status only. Never output account identifiers or message contents.
   }
   return {
